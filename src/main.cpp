@@ -26,14 +26,12 @@ void setup(void){
   Serial.begin(9600);         // Start the Serial communication to send messages to the computer
   delay(10);
   Serial.println('\n');
-
+  //init
   pinMode(BTN_UP, INPUT);
   pinMode(BTN_DOWN, INPUT);
   pinMode(ASSERT_UP, OUTPUT);
   pinMode(ASSERT_DOWN, OUTPUT);
 
-  // digitalWrite(BTN_UP, LOW);
-  // digitalWrite(BTN_DOWN, LOW);
 
   // SET AP
   Serial.print("Setting AP (Access Point)…");
@@ -72,6 +70,8 @@ void loop(void){
 }
 
 void handleRoot() {
+  String status = "status: BTN UP: " + String(digitalRead(BTN_UP)) + " BTN DOWN: " + String(digitalRead(BTN_DOWN));
+
   server.send(200, "text/html",
   "<!DOCTYPE html><html>"
   "<head><style>"
@@ -83,6 +83,7 @@ void handleRoot() {
   "<h1>ONovy controller</h1>"
   "<button type=\"button\" class=\"button\" onclick=\"loadDoc('up')\">UP</button>"
   "<button type=\"button\" class=\"button\" onclick=\"loadDoc('down')\">DOWN</button>"
+  + status +
   "<script>"
   "  function loadDoc(direction) {"
   "    var xhttp = new XMLHttpRequest(); xhttp.open(\"GET\", \"table?direction=\" + direction, true); xhttp.send(); }"
